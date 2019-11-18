@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion 28
+    buildToolsVersion "29.0.2"
+    defaultConfig {
+        applicationId "nejati.me.sample"
+        minSdkVersion 17
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "PUBLIC_KEY", '"5b0e269da44dcb1b1a87d1454a41bd39"'
+            buildConfigField "String", "PRIVATE_KEY", '"5c6342f7c5a3362d2306db6d8b71d62b44ebdb26"'
+        }
+        release {
+            buildConfigField "String", "PUBLIC_KEY", '"5b0e269da44dcb1b1a87d1454a41bd39"'
+            buildConfigField "String", "PRIVATE_KEY", '"5c6342f7c5a3362d2306db6d8b71d62b44ebdb26"'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+    kapt {
+        generateStubs = true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.android.support:design:$android_support_version"
+    implementation "androidx.appcompat:appcompat:$androidx_support_version"
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    kapt "com.android.databinding:compiler:3.1.4"
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.github.pwittchen:reactivenetwork-rx2:3.0.6'
+
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit2_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit2_version"
+    implementation "com.squareup.retrofit2:converter-scalars:$retrofit2_version"
+
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
+    implementation 'com.airbnb.android:lottie:3.0.7'
+
+
+
+}

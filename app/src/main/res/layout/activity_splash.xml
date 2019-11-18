@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.activity.splash.SplashActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="nejati.me.sample.viewModel.splash.SplashViewModel" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvAuthorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ivMarvelLogo"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/reza_nejati_sample"
+            android:textColor="@color/white"
+            android:textSize="@dimen/textSize_20sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivMarvelLogo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:src="@drawable/marvel_splash"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/ivComicsLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_50dp"
+            android:layout_below="@+id/ivMarvelLogo"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/comis_logo"
+            tools:ignore="ContentDescription" />
+
+        <include
+            android:id="@+id/llComicsRetryLayout"
+            layout="@layout/retry_layout"
+            android:visibility="@{viewModel.showRertryLayout ? View.VISIBLE : View.GONE}"
+            tools:retry="@{viewModel}" />
+
+    </RelativeLayout>
+
+</layout>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="nejati.me.sample.viewModel.comicsList.ComicsViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvComics"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingTop="?attr/actionBarSize"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    bind:itemClick="@{viewModel}"
+                    bind:listitem="@layout/comics_list_item"
+                    bind:recyclerAdapter="@{viewModel.comicsListObservable}" />
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/colorPrimary" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fabButton"
+                    android:layout_width="@dimen/_50dp"
+                    android:layout_height="@dimen/_50dp"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginEnd="@dimen/_16dp"
+                    android:layout_marginBottom="@dimen/_16dp"
+                    android:onClick="@{() -> viewModel.OnClickFabAction()}"
+                    android:src="@drawable/chevron_arrow_up"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:fabCustomSize="@dimen/_50dp" />
+
+            </FrameLayout>
+
+            <ProgressBar
+                android:id="@+id/pb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="@{viewModel.showPaginationProgress ? View.VISIBLE : View.GONE}" />
+
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/llComicsLoadings"
+            layout="@layout/loading"
+            android:visibility="@{viewModel.showProgressLayout ? View.VISIBLE : View.GONE}" />
+
+        <include
+            android:id="@+id/llComicsRetryLayout"
+            layout="@layout/retry_layout"
+            android:visibility="@{viewModel.showRertryLayout ? View.VISIBLE : View.GONE}"
+            bind:retry="@{viewModel}" />
+
+    </RelativeLayout>
+</layout>
