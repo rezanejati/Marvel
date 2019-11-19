@@ -120,13 +120,13 @@ class ComicsListActivity() :
      *
      */
     override fun onFabClick() {
-        rvComics.smoothScrollToPosition(0);
+        rvComics.smoothScrollToPosition(0)
     }
 
     /**
      * When click on recycler view item you can get the comicsItem
      *
-     * @param result ComicsItem
+     * @param comicsItem ComicsItem
      */
     override fun onDetail(comicsItem: Result) {
         detailDialog = DetailDialog.newInstance(this, comicsItem)
@@ -187,8 +187,8 @@ class ComicsListActivity() :
         viewModel!!.callComics()
 
         //Init Toolbar
-        setSupportActionBar(toolbar);
-        setTitle(getString(R.string.app_name));
+        setSupportActionBar(toolbar)
+        setTitle(getString(R.string.app_name))
 
 
         //Live Data for Adapter
@@ -207,6 +207,11 @@ class ComicsListActivity() :
                     viewModel!!.callComicsWebServiceForNextPage()
                     onShowPaginationProgress()
                 }
+            }
+
+            // On Move Scroll: Hide Fab Button
+            override fun onFirst() {
+                fabButton.animate().translationY(fabButton.getHeight().toFloat()*2)
             }
 
             // On Move Scroll: Hide Toolbar and Fab Button
@@ -300,7 +305,7 @@ class ComicsListActivity() :
             rvComics.setLayoutManager(GridLayoutManager(this, 2))
         }
 
-        rvComics.scrollToPosition(i);
+        rvComics.scrollToPosition(i)
 
     }
 
