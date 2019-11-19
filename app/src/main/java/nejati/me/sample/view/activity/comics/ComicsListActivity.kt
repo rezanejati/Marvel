@@ -211,7 +211,7 @@ class ComicsListActivity() :
 
             // On Move Scroll: Hide Toolbar and Fab Button
             override fun onMoved(distance: Int) {
-                toolbar.setTranslationY((-distance).toFloat());
+                toolbar.setTranslationY((-distance).toFloat())
                 fabButton.setTranslationY(((distance) * 1.4).toFloat());
             }
         })
