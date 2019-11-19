@@ -137,7 +137,7 @@ class ComicsListActivity() :
      * Server error
      **/
     override fun onServerError() {
-        viewModel!!.showRertryLayout.set(true)
+        viewModel!!.showRetryLayout.set(true)
     }
 
     /**
@@ -152,7 +152,7 @@ class ComicsListActivity() :
      **/
     override fun onShowProgress() {
         viewModel!!.showProgressLayout.set(true)
-        viewModel!!.showRertryLayout.set(false)
+        viewModel!!.showRetryLayout.set(false)
     }
 
     /**

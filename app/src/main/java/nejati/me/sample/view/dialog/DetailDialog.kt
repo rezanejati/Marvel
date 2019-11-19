@@ -52,7 +52,7 @@ class DetailDialog(override val _Activity: Activity) :
 
         viewModel!!.comicsItem.set(result)
 
-        Objects.requireNonNull(dialog.window).setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val lp = WindowManager.LayoutParams()
 

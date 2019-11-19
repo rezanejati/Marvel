@@ -76,8 +76,8 @@
         <include
             android:id="@+id/llComicsRetryLayout"
             layout="@layout/retry_layout"
-            android:visibility="@{viewModel.showRertryLayout ? View.VISIBLE : View.GONE}"
-            bind:retry="@{viewModel}" />
+            android:visibility="@{viewModel.showRetryLayout ? View.VISIBLE : View.GONE}"
+            bind:retry="@{((nejati.me.sample.base.ActivityBaseViewModel) viewModel)}" />
 
     </RelativeLayout>
 </layout>
