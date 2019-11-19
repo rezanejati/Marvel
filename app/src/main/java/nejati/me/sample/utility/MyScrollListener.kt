@@ -1,7 +1,6 @@
 package nejati.me.sample.utility
 
 import android.content.Context
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,7 +27,7 @@ abstract class MyScrollListener(context: Context) : RecyclerView.OnScrollListene
 
         clipToolbarOffset()
 
-        onMoved(toolbarOffset)
+        onMoved(toolbarOffset,dy)
 
         if (toolbarOffset < toolbarHeight && dy > 0 || toolbarOffset > 0 && dy < 0) {
             toolbarOffset += dy
@@ -42,7 +41,6 @@ abstract class MyScrollListener(context: Context) : RecyclerView.OnScrollListene
         if ((recyclerView.layoutManager as LinearLayoutManager?)!!.findFirstCompletelyVisibleItemPosition()== 0){
             onFirst()
         }
-
     }
 
     private fun clipToolbarOffset() {
@@ -53,9 +51,10 @@ abstract class MyScrollListener(context: Context) : RecyclerView.OnScrollListene
         }
     }
 
-    abstract fun onMoved(distance: Int)
+    abstract fun onMoved(distance: Int, dy: Int)
 
     abstract fun onEnd()
 
     abstract fun onFirst()
+
 }

@@ -1,5 +1,8 @@
 package nejati.me.sample.view.activity.comics
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_comics_list.*
@@ -13,8 +16,8 @@ import android.view.MenuItem
 import android.app.SearchManager
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Log
 import android.view.Menu
+import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -199,6 +202,7 @@ class ComicsListActivity() :
 
         //ScrollListener for Comics RecyclerView
         rvComics.addOnScrollListener(object : MyScrollListener(this) {
+
             // End Scroll: Call WebService for next page
             override fun onEnd() {
                 // When the user is searching in the comics list apiInPagintion is true
@@ -211,13 +215,25 @@ class ComicsListActivity() :
 
             // On Move Scroll: Hide Fab Button
             override fun onFirst() {
-                fabButton.animate().translationY(fabButton.getHeight().toFloat()*2)
+                fabButton.animate().translationY(fabButton.getHeight().toFloat()*2).setListener(object :
+                    AnimatorListenerAdapter() {
+                    @SuppressLint("RestrictedApi")
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+                        fabButton.visibility=View.GONE
+                    }
+                })
             }
 
             // On Move Scroll: Hide Toolbar and Fab Button
-            override fun onMoved(distance: Int) {
+            @SuppressLint("RestrictedApi")
+            override fun onMoved(distance: Int, dy: Int) {
                 toolbar.setTranslationY((-distance).toFloat())
                 fabButton.setTranslationY(((distance) * 1.4).toFloat())
+
+                if (dy<0 && fabButton.visibility==View.GONE){
+                    fabButton.visibility=View.VISIBLE
+                }
             }
         })
     }
