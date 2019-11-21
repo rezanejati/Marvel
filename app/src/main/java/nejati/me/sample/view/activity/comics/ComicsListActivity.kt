@@ -33,7 +33,7 @@ import nejati.me.sample.utility.DisposableManager
  * Reza Nejati <rn.nejati@gmail.com>
  * Copyright © 2019
  */
-class ComicsListActivity() :
+class ComicsListActivity:
     BaseActivity<ActivityComicsListBinding, ComicsViewModel>(),
     ComicsListActivityNavigator, SearchView.OnQueryTextListener {
 
@@ -287,8 +287,9 @@ class ComicsListActivity() :
 
             viewModel!!.apiCall.set(true)
 
-            viewModel!!.comicsListLiveData.setValue(viewModel!!.comicsList)
+            viewModel!!.setComicsList(viewModel!!.comicsList)
 
+            rvComics.adapter!!.notifyDataSetChanged()
         }
         return false
     }

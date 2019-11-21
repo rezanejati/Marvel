@@ -10,8 +10,11 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProviders
 import com.github.pwittchen.reactivenetwork.library.rx2.ReactiveNetwork
 import com.google.android.material.snackbar.Snackbar
+import dagger.android.AndroidInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import nejati.me.sample.utility.ComicsViewModelFactory
+import javax.inject.Inject
 
 /**
  * Authors:
@@ -26,14 +29,19 @@ abstract class BaseActivity<D : ViewDataBinding, V : ActivityBaseViewModel<*>> :
 
     abstract val bindingVariable: Int
 
+    @set:Inject
+    var comicsViewModelFactory: ComicsViewModelFactory? = null
+
     @get:LayoutRes
     protected abstract val layoutRes: Int
-    
+
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(getViewModel())
+        AndroidInjection.inject(this)
+
+        viewModel = ViewModelProviders.of(this,comicsViewModelFactory).get(getViewModel())
         dataBinding = DataBindingUtil.setContentView(this, layoutRes)
         dataBinding!!.setVariable(bindingVariable, viewModel)
         dataBinding!!.executePendingBindings()

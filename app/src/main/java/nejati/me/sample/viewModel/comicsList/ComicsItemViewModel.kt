@@ -11,8 +11,7 @@ import nejati.me.service.model.comics.response.Result
  */
 class ComicsItemViewModel(
     result: Result?,
-    private val customClickListener: CustomClickListener
-) {
+    private val customClickListener: CustomClickListener) {
     var comicsItems = ObservableField<Result>()
 
     init {

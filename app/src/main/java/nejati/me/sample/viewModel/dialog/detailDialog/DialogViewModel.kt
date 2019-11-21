@@ -1,7 +1,6 @@
 package nejati.me.sample.viewModel.dialog.detailDialog
 
 import androidx.databinding.ObservableField
-import nejati.me.sample.base.ActivityBaseViewModel
 import nejati.me.sample.base.DialogBaseViewModel
 import nejati.me.sample.view.dialog.DetailDialogNavigator
 import nejati.me.service.model.comics.response.Result

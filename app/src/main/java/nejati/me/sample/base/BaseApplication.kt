@@ -1,28 +1,39 @@
 package nejati.me.sample.base
 
+import android.app.Activity
 import android.app.Application
-import nejati.me.service.di.component.DaggerNetComponent
-import nejati.me.service.di.module.NetModule
-import nejati.me.service.generator.SingletonService
-import nejati.me.service.helper.Const
 
-/**
- * Authors:
- * Reza Nejati <rn.nejati@gmail.com>
- * Copyright © 2019
- */
-class BaseApplication : Application() {
+import javax.inject.Inject
+
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import nejati.me.sample.di.component.DaggerApplicationComponent
+
+
+class BaseApplication : Application(), HasActivityInjector {
+
     companion object {
         private lateinit var app: BaseApplication
-
         fun get(): BaseApplication = app
     }
+
+    @set : Inject
+    var activityDispatchingAndroidInjector: DispatchingAndroidInjector<Activity>? = null
+
     override fun onCreate() {
         super.onCreate()
+
         app = this
-        val mNetComponent = DaggerNetComponent.builder()
-            .netModule(NetModule(Const.BASEURl))
+
+        DaggerApplicationComponent
+            .builder()
+            .application(this)
             .build()
-        SingletonService.instance.setNetComponent(mNetComponent).inject()
+            .inject(this)
+    }
+
+    override fun activityInjector(): AndroidInjector<Activity>? {
+        return activityDispatchingAndroidInjector
     }
 }

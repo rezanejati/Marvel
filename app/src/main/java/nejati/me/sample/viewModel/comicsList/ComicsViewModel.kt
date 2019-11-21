@@ -7,24 +7,52 @@ import androidx.lifecycle.MutableLiveData
 import io.reactivex.Observable
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import nejati.me.sample.base.ActivityBaseViewModel
+import nejati.me.sample.di.api.ComicsApi
+import nejati.me.sample.di.api.RxSingleSchedulers
 import nejati.me.sample.utility.DisposableManager
 import nejati.me.sample.view.activity.comics.ComicsListActivityNavigator
-import nejati.me.service.generator.SingletonService
-import nejati.me.service.listener.OnServiceStatus
 import nejati.me.service.model.comics.request.ComicsRequestModel
 import nejati.me.service.model.comics.response.ComicsResponseModel
 import nejati.me.service.model.comics.response.Result
+import javax.inject.Inject
 
 /**
  * Authors:
  * Reza Nejati <rn.nejati@gmail.com>
  * Copyright © 2019
  */
-class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
-    OnServiceStatus<ComicsResponseModel> {
+class ComicsViewModel() : ActivityBaseViewModel<ComicsListActivityNavigator>() {
+
+    private var disposable: CompositeDisposable? = null
+    private var api: ComicsApi? = null
+    private var rxSingleSchedulers: RxSingleSchedulers? = null
+
+    init {
+        disposable = CompositeDisposable()
+    }
+
+    /**
+     * inject retro client
+     */
+    @Inject
+    constructor(api: ComicsApi, rxSingleSchedulers: RxSingleSchedulers) : this() {
+        this.api=api
+        this.rxSingleSchedulers=rxSingleSchedulers
+
+    }
+
+    /**
+     * get data from comics web service
+     */
+    fun getData() {
+        disposable!!.add(api!!.getComics(requestModel)
+            .compose(rxSingleSchedulers!!.applySchedulers())
+            .subscribe({onReady(it)}, { onError()}))
+    }
 
     /**
      * requestModel : this object is the ComicsRequest for webservice
@@ -63,7 +91,6 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
      */
     val comicsListLiveData = MutableLiveData<List<Result>>()
 
-
     /**
      *
      * @param position when click on recycler view item you can get the recycler view position
@@ -79,7 +106,7 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
      */
     override fun isInternetAvilable(status: Boolean) {
         if (!status) {
-            navigator!!.onNetworkError();
+            navigator!!.onNetworkError()
         }
     }
 
@@ -87,31 +114,18 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
      * the web service error message
      * @param message
      */
-    override fun onError(message: String) {
+     fun onError() {
 
         navigator!!.onHideProgress()
 
         navigator!!.onServerError()
     }
-
-    /**
-     * if Http Code Status not equal 200 This method will call
-     * @param message
-     */
-    override fun onHttpCodeStatus(status: Int) {
-
-        navigator!!.onHideProgress()
-
-        navigator!!.onServerError()
-    }
-
 
     /**
      * Comics Api Response
      * @param t Response Of ComicsResponse Api
-     * @param statusCode Http Status Code
      */
-    override fun onReady(t: ComicsResponseModel) {
+     fun onReady(t: ComicsResponseModel) {
 
         navigator!!.onHideProgress()
 
@@ -133,7 +147,7 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
 
         navigator!!.onShowProgress()
 
-        SingletonService.instance.marvelService().comicsService(this, requestModel)
+        getData()
     }
 
 
@@ -143,7 +157,7 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
 
         requestModel.offset = requestModel.offset!! + requestModel.limit!!
 
-        SingletonService.instance.marvelService().comicsService(this, requestModel)
+        getData()
     }
 
     /**
@@ -155,12 +169,13 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
         comicsListObservable.clear()
 
         comicsListObservable.addAll(list)
+
     }
 
 
     override fun OnClickRetryAction() {
 
-        callComics();
+        callComics()
 
     }
 
@@ -219,6 +234,5 @@ class ComicsViewModel : ActivityBaseViewModel<ComicsListActivityNavigator>(),
                 }
             })
     }
-
 }
 

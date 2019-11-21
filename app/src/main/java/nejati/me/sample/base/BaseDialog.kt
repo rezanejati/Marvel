@@ -11,6 +11,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProviders
+import nejati.me.sample.utility.ComicsViewModelFactory
+import javax.inject.Inject
 
 /**
  * Authors:
@@ -40,6 +42,7 @@ abstract class BaseDialog<D : ViewDataBinding, V : DialogBaseViewModel<*>> : Dia
         super.onCreate(savedInstanceState)
 
         dialog = Dialog(_Activity)
+
         viewModel = ViewModelProviders.of(this).get(getViewModel())
 
         screenStatus(resources.configuration.orientation)
@@ -73,7 +76,7 @@ abstract class BaseDialog<D : ViewDataBinding, V : DialogBaseViewModel<*>> : Dia
 
         dataBinding = DataBindingUtil.inflate(
             LayoutInflater.from(context),intLayoutId, null, false)
-        dialog.setContentView(dataBinding!!.getRoot());
+        dialog.setContentView(dataBinding!!.getRoot())
 
     }
 }

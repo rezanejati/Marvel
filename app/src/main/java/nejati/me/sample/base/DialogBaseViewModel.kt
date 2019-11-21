@@ -11,8 +11,6 @@ import io.reactivex.disposables.CompositeDisposable
  */
 abstract class DialogBaseViewModel <N> : ViewModel() {
 
-    var showRetryLayout = ObservableField(false)
-
     var navigator: N? = null
 
     val compositeDisposable: CompositeDisposable

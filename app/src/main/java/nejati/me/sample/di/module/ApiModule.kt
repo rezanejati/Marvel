@@ -1,18 +1,19 @@
-package nejati.me.service.di.module
+package nejati.me.sample.di.module
 
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
 import dagger.Module
 import dagger.Provides
-import nejati.me.sample.base.BaseApplication
 import nejati.me.sample.base.StaticValue
+import nejati.me.sample.di.api.RetroClient
+import nejati.me.sample.di.scope.CustomScope
+import nejati.me.service.helper.Const
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
  * Authors:
@@ -20,31 +21,36 @@ import retrofit2.converter.gson.GsonConverterFactory
  * Copyright © 2019
  */
 @Module
-class NetModule
+class ApiModule {
 
-/**
- * @param mBaseUrl
- */
-    (private val mBaseUrl: String) {
-
-    /**
-     * Initialize  GsonBuilder
-     * @return the GsonBuilder
-     */
+    @CustomScope
     @Provides
-    @Singleton
+    internal fun provideRetrofit(gson: Gson,okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder().baseUrl(Const.BASEURl)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .baseUrl(Const.BASEURl)
+            .client(okHttpClient)
+            .build()
+    }
+
+    @CustomScope
+    @Provides
     internal fun provideGson(): Gson {
         val gsonBuilder = GsonBuilder()
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
         return gsonBuilder.create()
     }
 
-    /**
-     * Initialize  OkHttpClient
-     * @return the OkHttpClient.Builder
-     */
+
+    @CustomScope
     @Provides
-    @Singleton
+    internal fun provideComicsApi(retrofit: Retrofit): RetroClient {
+        return retrofit.create(RetroClient::class.java)
+    }
+
+    @CustomScope
+    @Provides
     internal fun provideOkhttpClient(): OkHttpClient {
         val client = OkHttpClient.Builder()
         client.connectTimeout(StaticValue.TimeOut, TimeUnit.SECONDS)
@@ -52,23 +58,4 @@ class NetModule
         client.writeTimeout(StaticValue.TimeOut, TimeUnit.SECONDS)
         return client.build()
     }
-
-    /**
-     * Initialize  Retrofit
-     * @param gson
-     * @param okHttpClient
-     * @return the Retrofit
-     */
-    @Provides
-    @Singleton
-    internal fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .baseUrl(mBaseUrl)
-            .client(okHttpClient)
-            .build()
-    }
-
 }
-
