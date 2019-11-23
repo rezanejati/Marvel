@@ -17,5 +17,5 @@ abstract class ActivityBindingModule {
     internal abstract fun bindMainActivity(): ComicsListActivity
 
     @ContributesAndroidInjector
-    internal abstract fun bindDetailActivity(): SplashActivity
+    internal abstract fun bindSplashActivity(): SplashActivity
 }
