@@ -17,8 +17,11 @@ import nejati.me.sample.di.scope.CustomScope
  * Copyright © 2019
  */
 @CustomScope
-@Component(modules = [ApplicationModule::class, AndroidSupportInjectionModule::class,
-    ActivityBindingModule::class, ApiModule::class, RxModule::class])
+@Component(modules = [ApplicationModule::class,
+    AndroidSupportInjectionModule::class,
+    ActivityBindingModule::class,
+    ApiModule::class,
+    RxModule::class])
 interface ApplicationComponent : AndroidInjector<BaseApplication> {
 
     override fun inject(application: BaseApplication)

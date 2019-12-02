@@ -13,15 +13,5 @@ abstract class DialogBaseViewModel <N> : ViewModel() {
 
     var navigator: N? = null
 
-    val compositeDisposable: CompositeDisposable
-
-    init {
-        this.compositeDisposable = CompositeDisposable()
-    }
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
-    }
 }
 

@@ -26,15 +26,4 @@ abstract class ActivityBaseViewModel<N> : ViewModel() {
      */
     abstract fun isInternetAvilable(status:Boolean)
 
-    val compositeDisposable: CompositeDisposable
-
-    init {
-        this.compositeDisposable = CompositeDisposable()
-    }
-
-    override fun onCleared() {
-        compositeDisposable.dispose()
-        super.onCleared()
-
-    }
 }

@@ -17,7 +17,7 @@ class ComicsApi
 constructor(private val api: RetroClient) {
 
     fun getComics(request: ComicsRequestModel): Single<ComicsResponseModel> {
-        return api.getComicsList(  request.ts!!,
+        return api.getComicsList(request.ts!!,
             request.apikey!!,
             request.hash!!,
             request.format!!,
