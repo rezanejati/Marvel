@@ -14,5 +14,23 @@ import nejati.me.sample.base.BaseApplication;
  * Copyright © 2017
  */
 public class MyLifecycleObserver implements LifecycleObserver {
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    public void ON_START(){
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
+    public void ON_CREATE(){
 
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
+    public void ON_PAUSE(){
+
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    public void ON_RESUME(){
+
+    }
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    public void ON_DESTROY(){
+
+    }
 }
