@@ -2,6 +2,8 @@ package nejati.me.sample.base
 
 import android.app.Activity
 import android.app.Application
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.ProcessLifecycleOwner
 
 import javax.inject.Inject
 
@@ -11,7 +13,7 @@ import dagger.android.HasActivityInjector
 import nejati.me.sample.di.component.DaggerApplicationComponent
 
 
-class BaseApplication : Application(), HasActivityInjector {
+class BaseApplication : Application(), HasActivityInjector, LifecycleObserver {
 
     companion object {
         private lateinit var app: BaseApplication
@@ -23,6 +25,7 @@ class BaseApplication : Application(), HasActivityInjector {
 
     override fun onCreate() {
         super.onCreate()
+        ProcessLifecycleOwner.get().getLifecycle().addObserver(this);
 
         app = this
 
